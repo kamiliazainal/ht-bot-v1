@@ -87,7 +87,7 @@ app.get('/webhook', (req, res) => {
   if (mode && token) {
   
     // Check the mode and token sent are correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    if (mode === 'subscribe' && token === my_verify_token) {
       
       // Respond with 200 OK and challenge token from the request
       console.log('WEBHOOK_VERIFIED');
@@ -108,9 +108,33 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "text": `Hello! You sent the message: "${received_message.text}". How can we help you today?`,
+      "subtitle": "Tap a button to answer.",
+                  "buttons": [
+              {
+                "type": "postback",
+                "title": "I need help with a package I bought",
+                "payload": "1.1",
+              },
+              {
+                "type": "postback",
+                "title": "I need help with an accommodation I booked",
+                "payload": "1.2",
+              },
+                                  {
+                "type": "postback",
+                "title": "I would like to know what promotions are available",
+                "payload": "1.3",
+              },
+                                                      {
+                "type": "postback",
+                "title": "I would like to know other things",
+                "payload": "1.4",
+              },
+            ],
     }
-  } else if (received_message.attachments) {
+  } 
+  /*else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
     response = {
@@ -138,7 +162,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     }
-  } 
+  } */
   
   // Send the response message
   callSendAPI(sender_psid, response);    
@@ -151,10 +175,10 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+  if (payload === '1.1') {
+    response = { "text": "Can we have the booking reference number?" }
+  } else if (payload === '1.2') {
+    response = { "text": "What support do you require? " }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -172,7 +196,7 @@ function callSendAPI(sender_psid, response) {
   // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "qs": { "EAAFBIx0k8OUBAOt0Vut47XcUBXWaf064ZAR8ZBSSHssubEp8faIfntWtISi9TEVGQraXXgGmFxK1QZB2fArH5vHuQbGM9lCQDqw88R5ZASW121hYaxTZCLK5nTuzjaxHGOIsiY8GHTCTIedyhSsZBik076a2Bewaowv1ZAsBRceLQZDZD": PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
