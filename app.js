@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017-present, Facebook, Inc. All rights reserved.
  *
@@ -108,6 +107,11 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
+    "message":{
+    "type": "template",
+    "payload":{
+    "template_type": "generic",
+    "elements": [{
       "text": `Hello. You sent the message: "${received_message.text}". How can we help you today?`,
       "subtitle": "Tap a button to answer.",
       "buttons": [
@@ -122,6 +126,10 @@ function handleMessage(sender_psid, received_message) {
                 "payload": "1.2",
               }
             ]
+            
+            }]
+            }
+            }
       
     }
   } 
