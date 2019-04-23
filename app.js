@@ -106,32 +106,8 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {    
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-    let user_click = received_message.text[0].payload.url;
     response = {
-        "attachment": {
-            "type": "template",
-            "payload": {
-              "template_type": "generic",
-              "elements": [{
-                "text": `Hello ! You sent the message: "${received_message.text}". Hello! How can we help you today?`,
-                "subtitle": "Tap a button to answer.",
-                "image_url": user_click,
-                "buttons": [
-                  {
-                    "type": "postback",
-                    "title": "Yes!",
-                    "payload": "yes",
-                  },
-                  {
-                    "type": "postback",
-                    "title": "No!",
-                    "payload": "no",
-                  }
-                ],
-              }]
-            }
-          }
-      
+                "text": `Hello ! You sent the message: "${received_message.text}". Hello! How can we help you today?`
     }
   } 
   else if (received_message.attachments) {
