@@ -108,30 +108,7 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      "text": `Hello! You sent the message: "${received_message.text}". How can we help you today?`,
-      "subtitle": "Tap a button to answer.",
-                  "buttons": [
-              {
-                "type": "postback",
-                "title": "I need help with a package I bought",
-                "payload": "1.1",
-              },
-              {
-                "type": "postback",
-                "title": "I need help with an accommodation I booked",
-                "payload": "1.2",
-              },
-                                  {
-                "type": "postback",
-                "title": "I would like to know what promotions are available",
-                "payload": "1.3",
-              },
-                                                      {
-                "type": "postback",
-                "title": "I would like to know other things",
-                "payload": "1.4",
-              },
-            ],
+      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
     }
   } 
   else if (received_message.attachments) {
@@ -175,9 +152,9 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === '1.1') {
+  if (payload === 'yes') {
     response = { "text": "Can we have the booking reference number?" }
-  } else if (payload === '1.2') {
+  } else if (payload === 'no') {
     response = { "text": "What support do you require? " }
   }
   // Send the message to acknowledge the postback
