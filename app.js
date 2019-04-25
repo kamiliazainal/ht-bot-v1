@@ -103,11 +103,37 @@ function handleMessage(sender_psid, received_message) {
   let response;
   
   // Checks if the message contains text
-  if (received_message.text) {    
+  if (received_message.attachment) {    
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      //"text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+      "recipient":{
+    "id":"sender_psid"
+  },
+  "message":{
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"What do you want to do next?",
+        "buttons":[
+          {
+            "type":"web_url",
+            "url":"https://www.messenger.com",
+            "title":"Visit Messenger"
+          },
+          {
+            ...
+          },
+          {...}
+        ]
+      }
+    }
+  }
+    
+    
+    
     }
   } 
   else if (received_message.attachments) {
