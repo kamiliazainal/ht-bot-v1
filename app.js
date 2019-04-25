@@ -99,6 +99,38 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+function sendButtonMessage(sender_psid) {
+  var messageData = {
+    recipient: {
+      id: sender_psid
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "This is test text",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.oculus.com/en-us/rift/",
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
+            type: "phone_number",
+            title: "Call Phone Number",
+            payload: "+16505551234"
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData);
+}
+
 function handleMessage(sender_psid, received_message) {
   let response;
   
@@ -107,33 +139,7 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      //"text": `You sent the message: "${received_message.text}". Now send me an attachment!`
-      "recipient":{
-    "id":"sender_psid"
-  },
-  "message":{
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"button",
-        "text":"What do you want to do next?",
-        "buttons":[
-          {
-            "type":"web_url",
-            "url":"https://www.messenger.com",
-            "title":"Visit Messenger"
-          },
-          {
-            ...
-          },
-          {...}
-        ]
-      }
-    }
-  }
-    
-    
-    
+      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`   
     }
   } 
   else if (received_message.attachments) {
